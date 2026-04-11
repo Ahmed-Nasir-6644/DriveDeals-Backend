@@ -13,8 +13,9 @@ import { time } from 'console';
 
 @WebSocketGateway({
   cors: {
-    origin: '*',
+    origin: process.env.CORS_ORIGIN || ['http://localhost:5173', 'http://localhost:5000'],
     methods: ['GET', 'POST'],
+    credentials: true,
   },
 })
 export class BidsGateway implements OnGatewayConnection, OnGatewayDisconnect {

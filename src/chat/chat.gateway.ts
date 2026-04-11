@@ -12,7 +12,13 @@ import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
 import { Message } from '../entities/message.entity';
 
-@WebSocketGateway({ cors: true })
+@WebSocketGateway({
+  cors: {
+    origin: process.env.CORS_ORIGIN || ['http://localhost:5173', 'http://localhost:5000'],
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+})
 export class ChatGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
