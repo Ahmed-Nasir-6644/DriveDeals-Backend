@@ -26,6 +26,7 @@ async function bootstrap() {
     origin: corsOrigin,
     methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true,
+    allowedHeaders: ['Content-Type'],
   });
   await app.listen(port);
 }
