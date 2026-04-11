@@ -13,7 +13,7 @@ async function bootstrap() {
   }));
   
   app.enableCors({
-    origin: ['http://localhost:5173', 'http://localhost:5000'],
+    origin: process.env.CORS_ORIGIN || ['http://localhost:5173', 'http://localhost:5000'],
     methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true,
   });
