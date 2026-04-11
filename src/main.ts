@@ -12,8 +12,12 @@ async function bootstrap() {
     transform: true,
   }));
   
+  const corsOrigin = process.env.CORS_ORIGIN || ['http://localhost:5173', 'http://localhost:5000'];
+  console.log('CORS_ORIGIN:', corsOrigin);
+  console.log('NODE_ENV:', process.env.NODE_ENV);
+  
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || ['http://localhost:5173', 'http://localhost:5000'],
+    origin: corsOrigin,
     methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true,
   });
