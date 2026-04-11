@@ -3,7 +3,7 @@ import {
   Feature,
   FuelType,
   RegisteredIn,
-} from 'src/common/enums/enums';
+} from 'src/common/enums';
 import {
   IsEnum,
   IsInt,

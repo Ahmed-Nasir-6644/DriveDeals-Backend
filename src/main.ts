@@ -19,8 +19,11 @@ async function bootstrap() {
   const nodeEnv = configService.get<string>('NODE_ENV');
   const port = configService.get<number>('PORT') ?? 3000;
   
+  console.log('=== CORS Configuration ===');
   console.log('CORS_ORIGIN:', corsOrigin);
   console.log('NODE_ENV:', nodeEnv);
+  console.log('Port:', port);
+  console.log('========================');
   
   app.enableCors({
     origin: corsOrigin,
@@ -28,6 +31,7 @@ async function bootstrap() {
     credentials: true,
     allowedHeaders: ['Content-Type'],
   });
+  console.log('CORS enabled for origins:', corsOrigin);
   await app.listen(port);
 }
 bootstrap();

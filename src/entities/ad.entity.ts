@@ -14,7 +14,7 @@ import {
   Feature,
   FuelType,
   RegisteredIn,
-} from 'src/common/enums/enums';
+} from 'src/common/enums';
 
 @Entity('ads')
 export class Ad {
