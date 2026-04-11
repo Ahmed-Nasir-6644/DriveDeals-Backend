@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { BlTokenService } from './blToken.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BLTokens } from 'src/entities/blacklistedTokens.entity';
-import { MailModule } from 'src/mail/mail.module';
-import { RedisModule } from 'src/redis/redis.module';
+import { BLTokens } from '../entities/blacklistedTokens.entity';
+import { MailModule } from '../mail/mail.module';
+import { RedisModule } from '../redis/redis.module';
 
 @Module({
   imports: [

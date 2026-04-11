@@ -2,10 +2,10 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
-import { Bid } from 'src/entities/bid.entity';
-import { Ad } from 'src/entities/ad.entity';
-import { UsersService } from 'src/users/users.service';
-import { MailService } from 'src/mail/mail.service';
+import { Bid } from '../entities/bid.entity';
+import { Ad } from '../entities/ad.entity';
+import { UsersService } from '../users/users.service';
+import { MailService } from '../mail/mail.service';
 import * as jwt from 'jsonwebtoken';
 
 @Injectable()

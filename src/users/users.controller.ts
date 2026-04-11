@@ -1,7 +1,7 @@
 import { Controller, Get, Request, Query, UseGuards, Post, Body, Param, ParseIntPipe } from '@nestjs/common';
-import { jwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { jwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UsersService } from './users.service';
-import { UpdateUserNameDto } from 'src/dtos/updateUserName.dto';
+import { UpdateUserNameDto } from '../dtos/updateUserName.dto';
 import { NotFoundException } from '@nestjs/common';
 
 @Controller('users')

@@ -1,7 +1,7 @@
 import { Controller, Post, Body, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserProfileService } from './userprofile.service';
-import { GetUserProfileDto } from 'src/dtos/getUserProfile.dto';
+import { GetUserProfileDto } from '../dtos/getUserProfile.dto';
 
 @Controller('user-profile')
 export class UserProfileController {

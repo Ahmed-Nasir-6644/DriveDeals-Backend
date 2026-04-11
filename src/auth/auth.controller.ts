@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { jwtAuthGuard } from './jwt-auth.guard';
 import { BlTokenService } from './blToken.service';
 import { Response } from 'express';
-import { ChangePasswordRequestDto, VerifyOtpAndChangePasswordDto } from 'src/dtos/changePassword.dto';
+import { ChangePasswordRequestDto, VerifyOtpAndChangePasswordDto } from '../dtos/changePassword.dto';
 import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')

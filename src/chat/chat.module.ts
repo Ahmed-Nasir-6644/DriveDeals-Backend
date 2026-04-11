@@ -3,9 +3,9 @@ import { ChatService } from './chat.service';
 import { ChatController } from './chat.controller';
 import { ChatGateway } from './chat.gateway';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Message } from 'src/entities/message.entity';
-import { MailModule } from 'src/mail/mail.module';
-import { User } from 'src/entities/user.entity';
+import { Message } from '../entities/message.entity';
+import { MailModule } from '../mail/mail.module';
+import { User } from '../entities/user.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Message, User]), MailModule],

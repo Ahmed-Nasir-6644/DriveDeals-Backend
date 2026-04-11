@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { AdsService } from './ads.service';
 import { AdsController } from './ads.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Ad } from 'src/entities/ad.entity';
-import { User } from 'src/entities/user.entity';
-import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
+import { Ad } from '../entities/ad.entity';
+import { User } from '../entities/user.entity';
+import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 
 @Module({
   imports: [CloudinaryModule,

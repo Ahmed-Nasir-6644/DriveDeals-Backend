@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Patch, Req, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
-import { CreateAdDto } from 'src/dtos/createAd.dto';
+import { CreateAdDto } from '../dtos/createAd.dto';
 import { AdsService } from './ads.service';
-import { jwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { jwtAuthGuard } from '../auth/jwt-auth.guard';
 import * as jwt from 'jsonwebtoken';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Controller('ads')
 export class AdsController {
