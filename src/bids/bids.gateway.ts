@@ -18,6 +18,7 @@ import { getCorsOrigin } from '../config/cors.config';
     methods: ['GET', 'POST'],
     credentials: true,
   },
+  transports: ['websocket', 'polling'],
 })
 export class BidsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
