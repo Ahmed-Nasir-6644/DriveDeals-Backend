@@ -10,10 +10,11 @@ import {
 import { Server, Socket } from 'socket.io';
 import { BidsService } from './bids.service';
 import { time } from 'console';
+import { getCorsOrigin } from '../config/cors.config';
 
 @WebSocketGateway({
   cors: {
-    origin: process.env.CORS_ORIGIN || ['http://localhost:5173', 'http://localhost:5000'],
+    origin: getCorsOrigin(),
     methods: ['GET', 'POST'],
     credentials: true,
   },
