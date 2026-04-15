@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Patch, Req, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Patch, Req, UploadedFiles, UseGuards, UseInterceptors, BadRequestException } from '@nestjs/common';
 import { CreateAdDto } from '../dtos/createAd.dto';
 import { AdsService } from './ads.service';
 import { jwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -20,12 +20,34 @@ export class AdsController {
     ){
         const userId = req.user.userId;
 
+        // Validate file count
+        if (files && files.length > 10) {
+            throw new BadRequestException('Maximum 10 images allowed');
+        }
+
         if(!createAdDTO.images){
             createAdDTO.images = [];
         }
-        for(const file of files){
-            const url = await this.cloudinaryService.uploadImage(file);
-            if(url) createAdDTO.images?.push(url);
+
+        // Upload all images in parallel instead of sequentially
+        if (files && files.length > 0) {
+            try {
+                const uploadPromises = files.map(file => 
+                    this.cloudinaryService.uploadImage(file)
+                        .catch(err => {
+                            console.error('Image upload failed:', err);
+                            return null;
+                        })
+                );
+                const urls = await Promise.all(uploadPromises);
+                
+                // Filter out null values and add to images array
+                const validUrls = urls.filter(url => url !== null);
+                createAdDTO.images?.push(...validUrls);
+            } catch (error) {
+                console.error('Error uploading images:', error);
+                throw new BadRequestException('Failed to upload images');
+            }
         }
 
         const ad = await this.adsService.createAd(createAdDTO, userId);
