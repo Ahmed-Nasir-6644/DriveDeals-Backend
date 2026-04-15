@@ -17,6 +17,7 @@ import { getCorsOrigin } from '../config/cors.config';
     origin: getCorsOrigin(),
     methods: ['GET', 'POST'],
     credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
   },
   transports: ['websocket', 'polling'],
 })

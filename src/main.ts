@@ -29,7 +29,7 @@ async function bootstrap() {
     origin: corsOrigin,
     methods: 'GET,POST,PUT,PATCH,DELETE',
     credentials: true,
-    allowedHeaders: ['Content-Type'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
   console.log('CORS enabled for origins:', corsOrigin);
   await app.listen(port);
