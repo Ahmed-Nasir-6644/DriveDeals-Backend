@@ -2,7 +2,6 @@ import { Body, Controller, Delete, Get, Param, Post, Patch, Req, UploadedFiles, 
 import { CreateAdDto } from '../dtos/createAd.dto';
 import { AdsService } from './ads.service';
 import { jwtAuthGuard } from '../auth/jwt-auth.guard';
-import * as jwt from 'jsonwebtoken';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
@@ -19,10 +18,7 @@ export class AdsController {
         @Body() createAdDTO: CreateAdDto, @Req() req,
         @UploadedFiles() files: Express.Multer.File[],
     ){
-        const authHeader = req.headers['authorization'];
-        const  token = authHeader && authHeader.split(' ')[1];
-        const decoded = jwt.verify(token, '6561' );
-        const userId = Number(decoded.sub);
+        const userId = req.user.userId;
 
         if(!createAdDTO.images){
             createAdDTO.images = [];
@@ -39,10 +35,7 @@ export class AdsController {
     @UseGuards(jwtAuthGuard)
     @Get('get/adsByOwner')
     async getAdByOwner(@Req() req){
-        const authHeader = req.headers['authorization'];
-        const  token = authHeader && authHeader.split(' ')[1];
-        const decoded = jwt.verify(token, '6561' );
-        const userId = Number(decoded.sub);
+        const userId = req.user.userId;
         const ads  = await this.adsService.getAdByOwner(userId);
         return ads;
     }
@@ -63,12 +56,7 @@ export class AdsController {
     @UseGuards(jwtAuthGuard)
     @Delete('delete/:id')
     async deleteAd(@Param('id') id: number, @Req() req){
-        // Extract user id from JWT decoded payload
-        const authHeader = req.headers['authorization'];
-        const  token = authHeader && authHeader.split(' ')[1];
-        const decoded = jwt.verify(token, '6561' );
-        const userId = Number(decoded.sub);
-
+        const userId = req.user.userId;
         return await this.adsService.deleteAd(id, userId);
     }
 
@@ -79,11 +67,7 @@ export class AdsController {
         @Body() body: { price: number },
         @Req() req
     ){
-        const authHeader = req.headers['authorization'];
-        const  token = authHeader && authHeader.split(' ')[1];
-        const decoded = jwt.verify(token, '6561' );
-        const userId = Number(decoded.sub);
-
+        const userId = req.user.userId;
         const ad = await this.adsService.updatePrice(id, body.price, userId);
         return ad;
     }
