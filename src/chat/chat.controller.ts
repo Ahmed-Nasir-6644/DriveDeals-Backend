@@ -1,7 +1,13 @@
 // src/chat/chat.controller.ts
-import { Controller, Get, Query, ParseIntPipe } from "@nestjs/common";
+import { Controller, Get, Post, Query, Body, ParseIntPipe } from "@nestjs/common";
 import { ChatService } from "./chat.service";
 import { Message } from "../entities/message.entity";
+
+interface SendMessageDto {
+  senderId: number;
+  receiverId: number;
+  text: string;
+}
 
 @Controller("chat")
 export class ChatController {
@@ -17,6 +23,15 @@ export class ChatController {
     @Query("user2", ParseIntPipe) user2: number
   ): Promise<Message[]> {
     return this.chatService.getConversation(user1, user2);
+  }
+
+  /**
+   * Send a message (REST endpoint for Vercel production compatibility)
+   * POST /chat/send
+   */
+  @Post("send")
+  async sendMessage(@Body() data: SendMessageDto): Promise<Message> {
+    return this.chatService.saveMessage(data.senderId, data.receiverId, data.text);
   }
 
   /**
