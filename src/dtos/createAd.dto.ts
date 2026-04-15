@@ -31,6 +31,10 @@ export class CreateAdDto {
 
   @IsInt()
   @IsNotEmpty()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') return parseInt(value, 10);
+    return value;
+  })
   engine_capacity: number;
 
   @IsString()
@@ -47,6 +51,10 @@ export class CreateAdDto {
 
   @IsInt()
   @IsNotEmpty()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') return parseInt(value, 10);
+    return value;
+  })
   mileage: number;
 
   @IsEnum(BodyType)
@@ -91,10 +99,18 @@ export class CreateAdDto {
 
   @IsInt()
   @IsNotEmpty()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') return parseInt(value, 10);
+    return value;
+  })
   model_year: number;
 
   @IsNumber()
   @IsNotEmpty()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') return parseFloat(value);
+    return value;
+  })
   price: number;
 
   @IsString()
