@@ -13,13 +13,14 @@ import { time } from 'console';
 import { getCorsOrigin } from '../config/cors.config';
 
 @WebSocketGateway({
+  namespace: 'bids',
   cors: {
     origin: getCorsOrigin(),
     methods: ['GET', 'POST'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
   },
-  transports: ['websocket', 'polling'],
+  transports: ['polling', 'websocket'],
 })
 export class BidsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()

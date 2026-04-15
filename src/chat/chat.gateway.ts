@@ -14,13 +14,14 @@ import { Message } from '../entities/message.entity';
 import { getCorsOrigin } from '../config/cors.config';
 
 @WebSocketGateway({
+  namespace: 'chat',
   cors: {
     origin: getCorsOrigin(),
     methods: ['GET', 'POST'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
   },
-  transports: ['websocket', 'polling'],
+  transports: ['polling', 'websocket'],
 })
 export class ChatGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
