@@ -9,15 +9,15 @@ import { CloudinaryService } from '../cloudinary/cloudinary.service';
 export class AdsController {
     constructor(private readonly adsService: AdsService,
         private readonly cloudinaryService: CloudinaryService,
-    ){}
-    
+    ) { }
+
     @UseGuards(jwtAuthGuard)
     @Post('post-ad')
     @UseInterceptors(FilesInterceptor('files'))
     async postAd(
         @Body() createAdDTO: CreateAdDto, @Req() req,
         @UploadedFiles() files: Express.Multer.File[],
-    ){
+    ) {
         const userId = req.user.userId;
 
         // Validate file count
@@ -25,14 +25,14 @@ export class AdsController {
             throw new BadRequestException('Maximum 10 images allowed');
         }
 
-        if(!createAdDTO.images){
+        if (!createAdDTO.images) {
             createAdDTO.images = [];
         }
 
         // Upload all images in parallel instead of sequentially
         if (files && files.length > 0) {
             try {
-                const uploadPromises = files.map(file => 
+                const uploadPromises = files.map(file =>
                     this.cloudinaryService.uploadImage(file)
                         .catch(err => {
                             console.error('Image upload failed:', err);
@@ -40,7 +40,7 @@ export class AdsController {
                         })
                 );
                 const urls = await Promise.all(uploadPromises);
-                
+
                 // Filter out null values and add to images array
                 const validUrls = urls.filter(url => url !== null);
                 createAdDTO.images?.push(...validUrls);
@@ -56,29 +56,35 @@ export class AdsController {
 
     @UseGuards(jwtAuthGuard)
     @Get('get/adsByOwner')
-    async getAdByOwner(@Req() req){
+    async getAdByOwner(@Req() req) {
         const userId = req.user.userId;
-        const ads  = await this.adsService.getAdByOwner(userId);
+        const ads = await this.adsService.getAdByOwner(userId);
         return ads;
     }
 
 
     @Get('get/adById/:id')
-    async getAsById(@Param('id') id: number){
+    async getAsById(@Param('id') id: number) {
         let ad = await this.adsService.getAdById(id);
         return ad;
     }
 
 
     @Get('get/ads')
-    async getAllAds(){
+    async getAllAds() {
         return await this.adsService.getAllAds();
     }
 
+    @UseGuards(jwtAuthGuard)
     @Delete('delete/:id')
-    async deleteAd(@Param('id') id: number, @Req() req){
+    async deleteAd(@Param('id') id: number, @Req() req) {
         const userId = req.user.userId;
         return await this.adsService.deleteAd(id, userId);
+    }
+
+    @Delete('admin/delete/:id')
+    async adminDeleteAd(@Param('id') id: number) {
+        return await this.adsService.deleteAdByAdmin(id);
     }
 
     @UseGuards(jwtAuthGuard)
@@ -87,7 +93,7 @@ export class AdsController {
         @Param('id') id: number,
         @Body() body: { price: number },
         @Req() req
-    ){
+    ) {
         const userId = req.user.userId;
         const ad = await this.adsService.updatePrice(id, body.price, userId);
         return ad;

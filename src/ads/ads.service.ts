@@ -54,6 +54,14 @@ export class AdsService {
         return {message: 'Ad deleted successfully'};
     }
 
+
+    async deleteAdByAdmin(id: number){
+        const ad = await this.adRepository.findOne({where:{id}});
+        if(!ad) throw new NotFoundException('Ad not found');
+        await this.adRepository.remove(ad);
+        return {message: 'Ad deleted successfully'};
+    }
+
     async updatePrice(id: number, price: number, userId: number){
         const ad = await this.adRepository.findOne({where:{id}, relations:['owner']});
         if(!ad) throw new NotFoundException('Ad not found');
