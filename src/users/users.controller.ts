@@ -1,4 +1,4 @@
-import { Controller, Get, Request, Query, UseGuards, Post, Body, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Request, Query, UseGuards, Post, Body, Param, ParseIntPipe, Delete } from '@nestjs/common';
 import { jwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UsersService } from './users.service';
 import { UpdateUserNameDto } from '../dtos/updateUserName.dto';
@@ -40,5 +40,16 @@ export class UsersController {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
     return user;
+  }
+
+  @Get()
+  async getAllUsers() {
+    return await this.userService.getAllUsers();
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id', ParseIntPipe) id: number) {
+    await this.userService.deleteUserById(id);
+    return { message: `User with ID ${id} deleted successfully` };
   }
 }

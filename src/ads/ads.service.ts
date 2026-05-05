@@ -62,4 +62,13 @@ export class AdsService {
         ad.price = price;
         return await this.adRepository.save(ad);
     }
+
+    async deleteAdsByUserId(userId: number): Promise<void> {
+        const ads = await this.adRepository.find({
+            where: { owner: { id: userId } },
+        });
+        if (ads.length > 0) {
+            await this.adRepository.remove(ads);
+        }
+    }
 }

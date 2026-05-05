@@ -3,12 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository, StrictFilter } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { AdsService } from '../ads/ads.service';
+import { ChatService } from '../chat/chat.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private adsService: AdsService,
+    private chatService: ChatService,
   ) {}
 
   async findByEmail(email: string): Promise<User | null> {
@@ -57,5 +61,32 @@ export class UsersService {
     user.first_name = firstName;
     user.last_name = lastName;
     return await this.userRepository.save(user);
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    try {
+      return await this.userRepository.find();
+    } catch (error) {
+      console.error('Error fetching all users:', error);
+      throw error;
+    }
+  }
+
+  async deleteUserById(id: number): Promise<void> {
+    try {
+      const user = await this.userRepository.findOne({ where: { id } });
+      if (!user) {
+        throw new Error(`User with ID ${id} not found`);
+      }
+      // Delete all ads associated with the user
+      await this.adsService.deleteAdsByUserId(id);
+      // Delete all messages associated with the user
+      await this.chatService.deleteMessagesByUserId(id);
+      // Delete the user
+      await this.userRepository.delete(id);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      throw error;
+    }
   }
 }

@@ -87,4 +87,16 @@ export class ChatService {
       console.log(result)
       return result;
   }
+
+  async deleteMessagesByUserId(userId: number): Promise<void> {
+    const messages = await this.messageRepo.find({
+      where: [
+        { senderId: userId },
+        { receiverId: userId },
+      ],
+    });
+    if (messages.length > 0) {
+      await this.messageRepo.remove(messages);
+    }
+  }
 }
