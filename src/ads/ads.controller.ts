@@ -75,7 +75,6 @@ export class AdsController {
         return await this.adsService.getAllAds();
     }
 
-    @UseGuards(jwtAuthGuard)
     @Delete('delete/:id')
     async deleteAd(@Param('id') id: number, @Req() req){
         const userId = req.user.userId;
