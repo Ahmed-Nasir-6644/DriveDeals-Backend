@@ -11,5 +11,6 @@ import { CloudinaryModule } from '../cloudinary/cloudinary.module';
     TypeOrmModule.forFeature([Ad, User])],
   providers: [AdsService],
   controllers: [AdsController],
+  exports: [AdsService],
 })
 export class AdsModule {}
